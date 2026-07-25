@@ -73,19 +73,14 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, rgba(255, 255, 255, 0) 50%),
-                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0) 40%);
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.08) 0%, rgba(255, 255, 255, 0) 30%);
             z-index: -1;
-            animation: rotateBG 30s linear infinite;
+            animation: rotateBg 40s linear infinite;
         }
 
-        @keyframes rotateBG {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        @keyframes rotateBg {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes slideUp {
@@ -127,12 +122,12 @@
         }
 
         .logo-img {
-            width: 85px;
-            height: 85px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.2);
-            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+            border: 5px solid white;
             transition: var(--transition);
         }
 
@@ -305,8 +300,16 @@
             transition: var(--transition);
             color: var(--text-main);
             outline: none;
-            appearance: none;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 40px;
         }
 
         textarea.form-control {
@@ -971,7 +974,7 @@
                             <div class="file-label">
                                 <i class="fa-solid fa-camera"></i>
                                 <span>Ambil Foto / Unggah Bukti</span>
-                                <span style="font-size: 11px; opacity: 0.7;">(Maksimal 2MB)</span>
+                                <span style="font-size: 11px; opacity: 0.7;">(Maksimal 20MB)</span>
                             </div>
                         </div>
                         <div id="fileName"></div>
@@ -1133,10 +1136,10 @@
             const files = Array.from(e.target.files);
             if (files.length === 0) return;
 
-            // Check size per file (max 2MB each)
+            // Check size per file (max 20MB each)
             for (let file of files) {
-                if (file.size > 2 * 1024 * 1024) {
-                    alert(`Ukuran foto ${file.name} terlalu besar! Maksimal 2MB per foto.`);
+                if (file.size > 20 * 1024 * 1024) {
+                    alert(`Ukuran foto ${file.name} terlalu besar! Maksimal 20MB per foto.`);
                     this.value = '';
                     fileNameDisplay.innerHTML = '';
                     document.getElementById('fotoDataArray').value = '[]';
