@@ -8,32 +8,38 @@
     <!-- Modern Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #4F46E5; /* Indigo 600 */
-            --primary-light: #6366F1; /* Indigo 500 */
+            --primary: #4F46E5;
+            /* Indigo 600 */
+            --primary-light: #6366F1;
+            /* Indigo 500 */
             --primary-dark: #4338CA;
-            --accent: #10B981; /* Emerald 500 */
-            --text-main: #1F2937; /* Gray 800 */
-            --text-muted: #6B7280; /* Gray 500 */
+            --accent: #10B981;
+            /* Emerald 500 */
+            --text-main: #1F2937;
+            /* Gray 800 */
+            --text-muted: #6B7280;
+            /* Gray 500 */
             --bg-color: #F3F4F6;
             --card-bg: rgba(255, 255, 255, 0.85);
-            
+
             --success-bg: #D1FAE5;
             --success-text: #065F46;
             --warning-bg: #FEF3C7;
             --warning-text: #92400E;
             --danger-bg: #FEE2E2;
             --danger-text: #991B1B;
-            
+
             --radius-xl: 24px;
             --radius-lg: 16px;
             --radius-md: 12px;
             --radius-sm: 8px;
-            
+
             --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -62,25 +68,42 @@
         body::before {
             content: '';
             position: fixed;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, rgba(255,255,255,0) 50%),
-                        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, rgba(255,255,255,0) 40%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, rgba(255, 255, 255, 0) 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.08) 0%, rgba(255, 255, 255, 0) 40%);
             z-index: -1;
             animation: rotateBG 30s linear infinite;
         }
 
         @keyframes rotateBG {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Typography */
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             font-weight: 700;
             letter-spacing: -0.02em;
         }
@@ -157,7 +180,8 @@
 
         /* Main Container */
         main {
-            max-width: 600px; /* Slimmer for better mobile feel on desktop */
+            max-width: 600px;
+            /* Slimmer for better mobile feel on desktop */
             margin: -30px auto 40px;
             padding: 0 20px;
             width: 100%;
@@ -175,7 +199,7 @@
             padding: 6px;
             margin-bottom: 25px;
             box-shadow: var(--shadow-glass);
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             position: relative;
             animation: slideUp 0.6s ease-out 0.1s both;
         }
@@ -205,7 +229,7 @@
         .tab-btn.active {
             background: white;
             color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .tab-content {
@@ -218,8 +242,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         /* Cards (Glassmorphism) */
@@ -248,7 +279,7 @@
             justify-content: center;
             gap: 10px;
         }
-        
+
         .card-header h2 i {
             color: var(--primary);
             background: rgba(79, 70, 229, 0.1);
@@ -265,7 +296,7 @@
         .form-control {
             width: 100%;
             padding: 24px 16px 8px 16px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-lg);
             font-size: 15px;
             font-weight: 500;
@@ -275,7 +306,7 @@
             color: var(--text-main);
             outline: none;
             appearance: none;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
         textarea.form-control {
@@ -302,8 +333,8 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
-        .form-control:focus + .form-label,
-        .form-control:not(:placeholder-shown) + .form-label {
+        .form-control:focus+.form-label,
+        .form-control:not(:placeholder-shown)+.form-label {
             top: 6px;
             font-size: 11px;
             color: var(--primary);
@@ -355,34 +386,34 @@
             padding: 16px 10px;
             border: 2px solid transparent;
             border-radius: var(--radius-lg);
-            background: rgba(255,255,255,0.8);
+            background: rgba(255, 255, 255, 0.8);
             cursor: pointer;
             transition: var(--transition);
             font-weight: 600;
             font-size: 14px;
             color: var(--text-muted);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
-        
+
         .status-option label i {
             font-size: 20px;
         }
 
-        .status-option input[value="Hadir"]:checked + label {
+        .status-option input[value="Hadir"]:checked+label {
             background: var(--success-bg);
             border-color: var(--success-text);
             color: var(--success-text);
             box-shadow: 0 4px 15px rgba(6, 95, 70, 0.15);
         }
 
-        .status-option input[value="Izin"]:checked + label {
+        .status-option input[value="Izin"]:checked+label {
             background: var(--warning-bg);
             border-color: var(--warning-text);
             color: var(--warning-text);
             box-shadow: 0 4px 15px rgba(146, 64, 14, 0.15);
         }
 
-        .status-option input[value="Sakit"]:checked + label {
+        .status-option input[value="Sakit"]:checked+label {
             background: var(--danger-bg);
             border-color: var(--danger-text);
             color: var(--danger-text);
@@ -433,7 +464,7 @@
             color: var(--primary);
             margin-bottom: 5px;
         }
-        
+
         .file-label span {
             font-weight: 600;
         }
@@ -449,9 +480,10 @@
             padding: 6px 12px;
             border-radius: 20px;
             display: inline-block;
-            display: none; /* hidden by default */
+            display: none;
+            /* hidden by default */
         }
-        
+
         #fileName:not(:empty) {
             display: inline-block;
         }
@@ -479,17 +511,20 @@
             letter-spacing: 0.5px;
             margin-top: 10px;
         }
-        
+
         /* Button Shimmer Effect */
         .btn::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-20deg);
             transition: all 0.6s ease;
         }
-        
+
         .btn:hover::after {
             left: 150%;
         }
@@ -515,13 +550,18 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Success Message Full Screen */
         .success-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             z-index: 999;
@@ -559,7 +599,10 @@
         }
 
         @keyframes popIn {
-            to { opacity: 1; transform: scale(1); }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .success-overlay h2 {
@@ -570,22 +613,22 @@
             opacity: 0;
             transition: all 0.5s ease 0.2s;
         }
-        
+
         .success-overlay p {
             color: var(--text-muted);
             transform: translateY(20px);
             opacity: 0;
             transition: all 0.5s ease 0.3s;
         }
-        
+
         .success-overlay button {
             transform: translateY(20px);
             opacity: 0;
             transition: all 0.5s ease 0.4s;
         }
 
-        .success-overlay.active h2, 
-        .success-overlay.active p, 
+        .success-overlay.active h2,
+        .success-overlay.active p,
         .success-overlay.active button {
             transform: translateY(0);
             opacity: 1;
@@ -598,14 +641,14 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .grid-toolbar h3 {
             font-size: 18px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        
+
         .grid-toolbar h3 i {
             color: var(--primary);
         }
@@ -624,7 +667,7 @@
             font-weight: 700;
             transition: var(--transition);
         }
-        
+
         .refresh-btn:hover {
             background: var(--primary);
             color: white;
@@ -646,7 +689,7 @@
 
         .data-card {
             background: white;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: var(--radius-lg);
             padding: 16px;
             display: flex;
@@ -686,17 +729,50 @@
             text-transform: uppercase;
         }
 
-        .badge.Hadir { background: var(--success-bg); color: var(--success-text); }
-        .badge.Izin { background: var(--warning-bg); color: var(--warning-text); }
-        .badge.Sakit { background: var(--danger-bg); color: var(--danger-text); }
-        .badge.Alpa { background: var(--danger-bg); color: var(--danger-text); }
-        .badge.Upload { background: #E0E7FF; color: #3730A3; } /* For dokumentasi */
+        .badge.Hadir {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge.Izin {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .badge.Sakit {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+        }
+
+        .badge.Alpa {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+        }
+
+        .badge.Upload {
+            background: #E0E7FF;
+            color: #3730A3;
+        }
+
+        /* For dokumentasi */
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.25);
+        }
 
         /* Footer */
         footer {
@@ -715,14 +791,39 @@
 
         /* Mobile specific adjustments */
         @media (max-width: 600px) {
-            .header-title { font-size: 24px; }
-            .card { padding: 20px; }
-            .form-control { padding: 22px 14px 6px 14px; }
-            .form-label { left: 14px; top: 14px; }
-            .tabs { margin-bottom: 20px; }
-            .status-option label { padding: 12px 8px; font-size: 13px; }
-            .file-input-wrapper { padding: 20px 15px; }
-            .btn { padding: 15px; }
+            .header-title {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .form-control {
+                padding: 22px 14px 6px 14px;
+            }
+
+            .form-label {
+                left: 14px;
+                top: 14px;
+            }
+
+            .tabs {
+                margin-bottom: 20px;
+            }
+
+            .status-option label {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+
+            .file-input-wrapper {
+                padding: 20px 15px;
+            }
+
+            .btn {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -751,96 +852,98 @@
     <main>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('presensi')"><i class="fa-solid fa-clipboard-user"></i> Presensi</button>
-            <button class="tab-btn" onclick="switchTab('dokumentasi')"><i class="fa-solid fa-camera"></i> Dokumentasi PDD</button>
+            <button class="tab-btn active" onclick="switchTab('presensi')"><i class="fa-solid fa-clipboard-user"></i>
+                Presensi</button>
+            <button class="tab-btn" onclick="switchTab('dokumentasi')"><i class="fa-solid fa-camera"></i> Dokumentasi
+                PDD</button>
         </div>
 
         <div id="tab-presensi" class="tab-content active">
 
-        <!-- Form Absensi -->
-        <div class="card">
-            <div class="card-header">
-                <h2><i class="fa-solid fa-pen-to-square"></i> Isi Kehadiran</h2>
+            <!-- Form Absensi -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-pen-to-square"></i> Isi Kehadiran</h2>
+                </div>
+
+                <form id="attendanceForm">
+                    <div class="form-group">
+                        <input type="text" id="inputNama" class="form-control" required placeholder=" ">
+                        <label class="form-label" for="inputNama">Nama Lengkap</label>
+                    </div>
+
+                    <div class="form-group">
+                        <select id="inputJabatan" class="form-control" required placeholder=" ">
+                            <option value="" disabled selected></option>
+                            <option value="Ketua">Ketua</option>
+                            <option value="Wakil Ketua">Wakil Ketua</option>
+                            <option value="Sekretaris">Sekretaris</option>
+                            <option value="Bendahara">Bendahara</option>
+                            <option value="PDD">PDD</option>
+                            <option value="Konsumsi">Konsumsi</option>
+                            <option value="Humas">Humas</option>
+                            <option value="Perlengkapan">Perlengkapan</option>
+                        </select>
+                        <label class="form-label" for="inputJabatan">Jabatan Organisasi</label>
+                    </div>
+
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="text" id="inputTanggal" class="form-control" readonly placeholder=" ">
+                            <label class="form-label" for="inputTanggal">Tanggal</label>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="text" id="inputWaktu" class="form-control" readonly placeholder=" ">
+                            <label class="form-label" for="inputWaktu">Waktu</label>
+                        </div>
+                    </div>
+
+                    <label class="status-label">Status Kehadiran</label>
+                    <div class="status-toggle">
+                        <div class="status-option">
+                            <input type="radio" id="statusHadir" name="status" value="Hadir" checked>
+                            <label for="statusHadir"><i class="fa-solid fa-circle-check"></i> Hadir</label>
+                        </div>
+                        <div class="status-option">
+                            <input type="radio" id="statusIzin" name="status" value="Izin">
+                            <label for="statusIzin"><i class="fa-solid fa-envelope-open-text"></i> Izin</label>
+                        </div>
+                        <div class="status-option">
+                            <input type="radio" id="statusSakit" name="status" value="Sakit">
+                            <label for="statusSakit"><i class="fa-solid fa-notes-medical"></i> Sakit</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="keteranganGroup" style="display: none;">
+                        <textarea id="inputKeterangan" class="form-control" placeholder=" "></textarea>
+                        <label class="form-label" for="inputKeterangan">Keterangan (Wajib jika Izin/Sakit)</label>
+                    </div>
+
+
+                    <button type="submit" class="btn" id="submitBtn">
+                        <span class="btn-text">Kirim Absensi</span>
+                        <div class="spinner" id="submitSpinner"></div>
+                    </button>
+                </form>
             </div>
 
-            <form id="attendanceForm">
-                <div class="form-group">
-                    <input type="text" id="inputNama" class="form-control" required placeholder=" ">
-                    <label class="form-label" for="inputNama">Nama Lengkap</label>
+            <!-- Data Absensi Hari Ini -->
+            <div class="card">
+                <div class="grid-toolbar">
+                    <h3 style="font-size: 18px; color: var(--text-main); font-family: 'Inter', sans-serif;"><i
+                            class="fa-solid fa-list-check" style="color: var(--primary);"></i> Data Hari Ini</h3>
+                    <button class="refresh-btn" onclick="fetchData()" id="refreshBtn">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh
+                    </button>
                 </div>
 
-                <div class="form-group">
-                    <select id="inputJabatan" class="form-control" required placeholder=" ">
-                        <option value="" disabled selected></option>
-                        <option value="Ketua">Ketua</option>
-                        <option value="Wakil Ketua">Wakil Ketua</option>
-                        <option value="Sekretaris">Sekretaris</option>
-                        <option value="Bendahara">Bendahara</option>
-                        <option value="PDD">PDD</option>
-                        <option value="Konsumsi">Konsumsi</option>
-                        <option value="Humas">Humas</option>
-                        <option value="Perlengkapan">Perlengkapan</option>
-                    </select>
-                    <label class="form-label" for="inputJabatan">Jabatan Organisasi</label>
-                </div>
-
-                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <input type="text" id="inputTanggal" class="form-control" readonly placeholder=" ">
-                        <label class="form-label" for="inputTanggal">Tanggal</label>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <input type="text" id="inputWaktu" class="form-control" readonly placeholder=" ">
-                        <label class="form-label" for="inputWaktu">Waktu</label>
+                <div class="data-grid" id="dataGrid">
+                    <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px;">
+                        Memuat data...
                     </div>
                 </div>
-
-                <label class="status-label">Status Kehadiran</label>
-                <div class="status-toggle">
-                    <div class="status-option">
-                        <input type="radio" id="statusHadir" name="status" value="Hadir" checked>
-                        <label for="statusHadir"><i class="fa-solid fa-circle-check"></i> Hadir</label>
-                    </div>
-                    <div class="status-option">
-                        <input type="radio" id="statusIzin" name="status" value="Izin">
-                        <label for="statusIzin"><i class="fa-solid fa-envelope-open-text"></i> Izin</label>
-                    </div>
-                    <div class="status-option">
-                        <input type="radio" id="statusSakit" name="status" value="Sakit">
-                        <label for="statusSakit"><i class="fa-solid fa-notes-medical"></i> Sakit</label>
-                    </div>
-                </div>
-
-                <div class="form-group" id="keteranganGroup" style="display: none;">
-                    <textarea id="inputKeterangan" class="form-control" placeholder=" "></textarea>
-                    <label class="form-label" for="inputKeterangan">Keterangan (Wajib jika Izin/Sakit)</label>
-                </div>
-
-                
-                <button type="submit" class="btn" id="submitBtn">
-                    <span class="btn-text">Kirim Absensi</span>
-                    <div class="spinner" id="submitSpinner"></div>
-                </button>
-            </form>
-        </div>
-
-        <!-- Data Absensi Hari Ini -->
-        <div class="card">
-            <div class="grid-toolbar">
-                <h3 style="font-size: 18px; color: var(--text-main); font-family: 'Inter', sans-serif;"><i
-                        class="fa-solid fa-list-check" style="color: var(--primary);"></i> Data Hari Ini</h3>
-                <button class="refresh-btn" onclick="fetchData()" id="refreshBtn">
-                    <i class="fa-solid fa-rotate-right"></i> Refresh
-                </button>
             </div>
 
-            <div class="data-grid" id="dataGrid">
-                <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px;">
-                    Memuat data...
-                </div>
-            </div>
-        </div>
-    
         </div> <!-- End of tab-presensi -->
 
         <!-- Tab Dokumentasi PDD -->
@@ -854,7 +957,7 @@
                         <input type="text" id="dokNama" class="form-control" required placeholder=" ">
                         <label class="form-label" for="dokNama">Nama Lengkap (PDD)</label>
                     </div>
-                    
+
                     <div class="form-group">
                         <textarea id="dokKeterangan" class="form-control" required placeholder=" "></textarea>
                         <label class="form-label" for="dokKeterangan">Keterangan / Aktivitas</label>
@@ -899,7 +1002,7 @@
     </div>
 
     <script>
-        
+
         // Submit Dokumentasi Form
         const dokForm = document.getElementById('dokumentasiForm');
         dokForm.addEventListener('submit', function (e) {
@@ -919,7 +1022,7 @@
             const mm = String(now.getMonth() + 1).padStart(2, '0');
             const dd = String(now.getDate()).padStart(2, '0');
             const dokTanggal = `${yyyy}-${mm}-${dd}`;
-            
+
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const dokWaktu = `${hours}:${minutes}`;
@@ -964,7 +1067,7 @@
         // KONFIGURASI GOOGLE APPS SCRIPT URL
         // ==========================================
         // Ganti URL di bawah ini dengan Web App URL dari Google Apps Script Anda
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_PLACEHOLDER_URL/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymq8I0dk7AmmnwDrNj__aFW_-I1eSHZNZeQVeO-st9oN8hKnn0Mu8Fb_h6uRVGOGXO/exec';
 
         // Setup Date & Time
         function updateDateTime() {
@@ -988,11 +1091,11 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
-        
+
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
+
             if (tabName === 'presensi') {
                 document.querySelectorAll('.tab-btn')[0].classList.add('active');
                 document.getElementById('tab-presensi').classList.add('active');
@@ -1029,7 +1132,7 @@
             if (files.length === 0) return;
 
             // Check size per file (max 2MB each)
-            for(let file of files) {
+            for (let file of files) {
                 if (file.size > 2 * 1024 * 1024) {
                     alert(`Ukuran foto ${file.name} terlalu besar! Maksimal 2MB per foto.`);
                     this.value = '';
