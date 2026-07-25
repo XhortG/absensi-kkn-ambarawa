@@ -930,8 +930,10 @@
             <!-- Data Absensi Hari Ini -->
             <div class="card">
                 <div class="grid-toolbar">
-                    <h3 style="font-size: 18px; color: var(--text-main); font-family: 'Inter', sans-serif;"><i
-                            class="fa-solid fa-list-check" style="color: var(--primary);"></i> Data Hari Ini</h3>
+                    <h3 style="font-size: 18px; color: var(--text-main); font-family: 'Inter', sans-serif;">
+                        <i class="fa-solid fa-list-check" style="color: var(--primary);"></i> 
+                        Data Hari Ini <span id="counterDisplay" style="font-size:12px; font-weight:normal; margin-left:10px; padding:2px 8px; background:var(--primary-light); color:white; border-radius:20px;"></span>
+                    </h3>
                     <button class="refresh-btn" onclick="fetchData()" id="refreshBtn">
                         <i class="fa-solid fa-rotate-right"></i> Refresh
                     </button>
