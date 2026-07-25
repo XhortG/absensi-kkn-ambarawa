@@ -16,27 +16,28 @@
             --primary-light: #818cf8;
             --primary-dark: #4f46e5;
             --secondary: #ec4899;
-            --background: #f8fafc;
-            --surface: rgba(255, 255, 255, 0.7);
-            --surface-hover: rgba(255, 255, 255, 0.9);
-            --border: rgba(255, 255, 255, 0.5);
+            --accent: #06b6d4;
+            --surface: rgba(255, 255, 255, 0.72);
+            --surface-hover: rgba(255, 255, 255, 0.92);
+            --border: rgba(255, 255, 255, 0.6);
             --text-main: #1e293b;
             --text-muted: #64748b;
-            
-            --success: #10b981;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --warning: #f59e0b;
-            --warning-bg: rgba(245, 158, 11, 0.1);
-            --danger: #ef4444;
-            --danger-bg: rgba(239, 68, 68, 0.1);
 
-            --radius-xl: 24px;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            
-            --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.12);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.12);
+            --danger: #ef4444;
+            --danger-bg: rgba(239, 68, 68, 0.12);
+
+            --radius-xl: 28px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+
+            --shadow-glass: 0 8px 40px rgba(99, 102, 241, 0.08), 0 2px 8px rgba(0,0,0,0.04);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-card: 0 20px 60px rgba(99, 102, 241, 0.1);
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -48,7 +49,7 @@
         }
 
         body {
-            background-color: #f1f5f9;
+            background-color: #eef2ff;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -57,23 +58,25 @@
             overflow-x: hidden;
         }
 
-        /* Animated Mesh Gradient Background */
+        /* Animated Aurora Background */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15), transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.15), transparent 50%);
+            background:
+                radial-gradient(ellipse at 10% 20%, rgba(99, 102, 241, 0.22) 0%, transparent 55%),
+                radial-gradient(ellipse at 90% 10%, rgba(236, 72, 153, 0.18) 0%, transparent 45%),
+                radial-gradient(ellipse at 50% 90%, rgba(6, 182, 212, 0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
             z-index: -1;
-            animation: meshMove 20s ease-in-out infinite alternate;
+            animation: auroraMove 18s ease-in-out infinite alternate;
         }
 
-        @keyframes meshMove {
-            0% { transform: scale(1) translate(0, 0); }
-            50% { transform: scale(1.1) translate(2%, 2%); }
-            100% { transform: scale(1) translate(-2%, -2%); }
+        @keyframes auroraMove {
+            0%   { transform: scale(1) translate(0, 0); }
+            33%  { transform: scale(1.06) translate(1.5%, 1.5%); }
+            66%  { transform: scale(1.03) translate(-1%, 2%); }
+            100% { transform: scale(1) translate(-2%, -1.5%); }
         }
 
         /* Scrollbar */
@@ -86,7 +89,7 @@
 
         /* Header */
         header {
-            padding: 40px 20px 20px;
+            padding: 50px 20px 30px;
             text-align: center;
             animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -94,37 +97,56 @@
         .logo-container {
             position: relative;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+        }
+
+        /* Glowing ring behind logo */
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            opacity: 0.35;
+            filter: blur(10px);
+            z-index: -1;
+            animation: logoGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoGlow {
+            0%   { opacity: 0.25; transform: scale(0.95); }
+            100% { opacity: 0.50; transform: scale(1.05); }
         }
 
         .logo-img {
-            width: 120px;
-            height: 120px;
+            width: 115px;
+            height: 115px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid rgba(255,255,255,0.9);
-            box-shadow: 0 12px 35px rgba(99, 102, 241, 0.25);
+            border: 5px solid #fff;
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
             transition: var(--transition);
         }
 
         .logo-img:hover {
-            transform: scale(1.05) rotate(5deg);
-            border-color: #fff;
+            transform: scale(1.07) rotate(6deg);
         }
 
         .header-title {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text-main), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #7c3aed 60%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
+            line-height: 1.2;
         }
 
         .header-subtitle {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-muted);
             font-weight: 500;
+            letter-spacing: 0.02em;
         }
 
         /* Header Meta (Date & Counter) */
@@ -137,19 +159,25 @@
         }
 
         .meta-badge {
-            background: var(--surface);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.7);
+            padding: 9px 18px;
+            border-radius: 30px;
             font-size: 13px;
             font-weight: 600;
             color: var(--primary-dark);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 16px rgba(99,102,241,0.1);
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: var(--transition);
+        }
+
+        .meta-badge:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(99,102,241,0.15);
         }
 
         /* Main Container */
@@ -163,29 +191,33 @@
         /* Segmented Control (iOS Style Tabs) */
         .segmented-control {
             display: flex;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 6px;
-            border-radius: var(--radius-xl);
-            margin-bottom: 30px;
+            border-radius: 30px;
+            margin-bottom: 28px;
             position: relative;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 4px 20px rgba(99,102,241,0.08), inset 0 1px 0 rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.7);
         }
 
         .segment-btn {
             flex: 1;
-            padding: 12px;
+            padding: 13px 10px;
             text-align: center;
             font-size: 14px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
-            border-radius: calc(var(--radius-xl) - 6px);
+            border-radius: 24px;
             transition: var(--transition);
             position: relative;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
         }
 
         .segment-btn.active {
@@ -198,46 +230,60 @@
             bottom: 6px;
             left: 6px;
             width: calc(50% - 6px);
-            background: #fff;
-            border-radius: calc(var(--radius-xl) - 6px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: linear-gradient(135deg, #fff 0%, rgba(240,242,255,0.95) 100%);
+            border-radius: 24px;
+            box-shadow: 0 3px 12px rgba(99,102,241,0.12);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1;
         }
 
         /* Glass Card */
         .glass-card {
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,255,255,0.65);
             border-radius: var(--radius-xl);
-            padding: 30px 25px;
-            box-shadow: var(--shadow-glass);
-            margin-bottom: 25px;
+            padding: 32px 26px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle top highlight on card */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
         }
 
         .card-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(99,102,241,0.07);
         }
 
         .card-header h2 {
-            font-size: 20px;
+            font-size: 19px;
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            font-weight: 700;
         }
 
         .card-header h2 i {
             color: var(--primary);
-            background: rgba(99, 102, 241, 0.15);
+            background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.12));
             padding: 10px;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 14px;
+            font-size: 17px;
         }
 
         /* Form Inputs */
@@ -455,7 +501,7 @@
         /* Buttons */
         .btn-primary {
             width: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark) 60%, #7c3aed);
             color: white;
             border: none;
             padding: 18px;
@@ -680,8 +726,8 @@
         <!-- Segmented Control -->
         <div class="segmented-control">
             <div class="segment-indicator" id="segmentIndicator"></div>
-            <div class="segment-btn active" onclick="switchTab('presensi', 0)">Presensi Harian</div>
-            <div class="segment-btn" onclick="switchTab('dokumentasi', 1)">Dokumentasi PDD</div>
+            <div class="segment-btn active" onclick="switchTab('presensi', 0)"><i class="fa-solid fa-clipboard-check"></i> Presensi</div>
+            <div class="segment-btn" onclick="switchTab('dokumentasi', 1)"><i class="fa-solid fa-camera"></i> Dokumentasi PDD</div>
         </div>
 
         <!-- TAB PRESENSI -->
@@ -814,7 +860,7 @@
     </main>
 
     <footer>
-        <p><strong>KKN Universitas Aisyah Pringsewu</strong> &copy; 2026<br>Premium Edition - Desa Ambarawa Timur</p>
+        <p><strong>KKN Universitas Aisyah Pringsewu</strong> &copy; 2026 &mdash; Desa Ambarawa Timur</p>
     </footer>
 
     <!-- Success Modal -->
