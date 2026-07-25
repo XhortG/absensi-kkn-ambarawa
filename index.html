@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi KKN - Ambarawa Timur</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #1263A1;
+            --primary-light: #1C82D1;
+            --accent: #4CAF50;
+            --bg-color: #F0F6FA;
+            --card-bg: #FFFFFF;
+            --text-main: #1A1A1A;
+            --text-muted: #666666;
+            --error: #D32F2F;
+            --success-bg: #E8F5E9;
+            --success-text: #2E7D32;
+            --warning-bg: #FFF8E1;
+            --warning-text: #F57F17;
+            --danger-bg: #FFEBEE;
+            --danger-text: #C62828;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow: 0 10px 25px -5px rgba(27, 67, 50, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            border-bottom: 4px solid var(--accent);
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 3px solid white;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(212, 160, 23, 0.3);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 800px;
+            margin: -20px auto 40px;
+            padding: 0 20px;
+            width: 100%;
+            flex: 1;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* Card Setup */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            border-bottom: 1px solid #EEEEEE;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form Elements - Floating Labels */
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 16px 10px 16px;
+            border: 2px solid #E0E0E0;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-family: inherit;
+            background: transparent;
+            transition: var(--transition);
+            color: var(--text-main);
+            outline: none;
+            appearance: none;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-label {
+            position: absolute;
+            left: 16px;
+            top: 14px;
+            font-size: 15px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: var(--transition);
+            background: var(--card-bg);
+            padding: 0 4px;
+        }
+
+        .form-control:focus,
+        .form-control:not(:placeholder-shown) {
+            border-color: var(--primary-light);
+        }
+
+        .form-control:focus+.form-label,
+        .form-control:not(:placeholder-shown)+.form-label {
+            top: -10px;
+            font-size: 13px;
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231263A1'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Status Toggle */
+        .status-toggle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .status-option input[type="radio"] {
+            display: none;
+        }
+
+        .status-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .status-option input[value="Hadir"]:checked+label {
+            background: var(--success-bg);
+            border-color: var(--success-text);
+            color: var(--success-text);
+        }
+
+        .status-option input[value="Izin"]:checked+label {
+            background: var(--warning-bg);
+            border-color: var(--warning-text);
+            color: var(--warning-text);
+        }
+
+        .status-option input[value="Sakit"]:checked+label {
+            background: var(--danger-bg);
+            border-color: var(--danger-text);
+            color: var(--danger-text);
+        }
+
+        /* File Input Custom */
+        .file-input-wrapper {
+            position: relative;
+            border: 2px dashed #E0E0E0;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: #FAFAFA;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: var(--primary-light);
+            background: rgba(45, 106, 79, 0.02);
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+
+        .file-label i {
+            font-size: 28px;
+            color: var(--primary-light);
+        }
+
+        #fileName {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--primary);
+            word-break: break-all;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(27, 67, 50, 0.2);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(27, 67, 50, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Success Message */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .success-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-bg);
+            color: var(--success-text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 20px;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        @keyframes bounceIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-overlay h2 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        /* Attendance Data Grid */
+        .grid-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .refresh-btn {
+            background: none;
+            border: none;
+            color: var(--primary-light);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .refresh-btn.spinning i {
+            animation: spin 1s linear infinite;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .data-card {
+            background: #FAFAFA;
+            border: 1px solid #EEEEEE;
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .data-card:hover {
+            border-color: var(--primary-light);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .data-info h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .data-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.Hadir {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .badge.Izin {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .badge.Sakit {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+        }
+
+        .badge.Alpa {
+            background: var(--danger-bg);
+            color: var(--danger-text);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-light);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid #E0E0E0;
+            margin-top: auto;
+        }
+
+        footer strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 600px) {
+            .header-title {
+                font-size: 24px;
+            }
+
+            .status-toggle {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <!-- Logo KKN -->
+            <img src="logo_kkn.jpg" alt="Logo KKN Ambarawa Timur" class="logo-img">
+            <h1 class="header-title">Absensi KKN</h1>
+            <p style="font-size: 15px; font-weight: 500;">Desa Ambarawa Timur, Pringsewu</p>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span id="currentDateDisplay">Loading...</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span id="counterDisplay">0 Hadir Hari Ini</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Form Absensi -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-pen-to-square"></i> Isi Kehadiran</h2>
+            </div>
+
+            <form id="attendanceForm">
+                <div class="form-group">
+                    <input type="text" id="inputNama" class="form-control" required placeholder=" ">
+                    <label class="form-label" for="inputNama">Nama Lengkap</label>
+                </div>
+
+                <div class="form-group">
+                    <select id="inputJabatan" class="form-control" required placeholder=" ">
+                        <option value="" disabled selected></option>
+                        <option value="Ketua">Ketua</option>
+                        <option value="Wakil Ketua">Wakil Ketua</option>
+                        <option value="Sekretaris">Sekretaris</option>
+                        <option value="Bendahara">Bendahara</option>
+                        <option value="PDD">PDD</option>
+                        <option value="Konsumsi">Konsumsi</option>
+                        <option value="Humas">Humas</option>
+                        <option value="Perlengkapan">Perlengkapan</option>
+                    </select>
+                    <label class="form-label" for="inputJabatan">Jabatan Organisasi</label>
+                </div>
+
+                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <input type="text" id="inputTanggal" class="form-control" readonly placeholder=" ">
+                        <label class="form-label" for="inputTanggal">Tanggal</label>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <input type="text" id="inputWaktu" class="form-control" readonly placeholder=" ">
+                        <label class="form-label" for="inputWaktu">Waktu</label>
+                    </div>
+                </div>
+
+                <label
+                    style="display:block; margin-bottom: 10px; font-size: 14px; color: var(--text-muted); font-weight: 500;">Status
+                    Kehadiran</label>
+                <div class="status-toggle">
+                    <div class="status-option">
+                        <input type="radio" id="statusHadir" name="status" value="Hadir" checked>
+                        <label for="statusHadir"><i class="fa-solid fa-circle-check"></i> Hadir</label>
+                    </div>
+                    <div class="status-option">
+                        <input type="radio" id="statusIzin" name="status" value="Izin">
+                        <label for="statusIzin"><i class="fa-solid fa-envelope-open-text"></i> Izin</label>
+                    </div>
+                    <div class="status-option">
+                        <input type="radio" id="statusSakit" name="status" value="Sakit">
+                        <label for="statusSakit"><i class="fa-solid fa-notes-medical"></i> Sakit</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="keteranganGroup" style="display: none;">
+                    <textarea id="inputKeterangan" class="form-control" placeholder=" "></textarea>
+                    <label class="form-label" for="inputKeterangan">Keterangan (Wajib jika Izin/Sakit)</label>
+                </div>
+
+                <div class="form-group">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="inputFoto" accept="image/*" capture="environment">
+                        <div class="file-label">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Ambil Foto / Unggah Bukti</span>
+                            <span style="font-size: 11px; opacity: 0.7;">(Maksimal 2MB)</span>
+                        </div>
+                    </div>
+                    <div id="fileName"></div>
+                    <!-- Base64 hidden input -->
+                    <input type="hidden" id="fotoBase64">
+                    <input type="hidden" id="fotoMimeType">
+                    <input type="hidden" id="fotoName">
+                </div>
+
+                <button type="submit" class="btn" id="submitBtn">
+                    <span class="btn-text">Kirim Absensi</span>
+                    <div class="spinner" id="submitSpinner"></div>
+                </button>
+            </form>
+        </div>
+
+        <!-- Data Absensi Hari Ini -->
+        <div class="card">
+            <div class="grid-toolbar">
+                <h3 style="font-size: 18px; color: var(--text-main); font-family: 'Inter', sans-serif;"><i
+                        class="fa-solid fa-list-check" style="color: var(--primary);"></i> Data Hari Ini</h3>
+                <button class="refresh-btn" onclick="fetchData()" id="refreshBtn">
+                    <i class="fa-solid fa-rotate-right"></i> Refresh
+                </button>
+            </div>
+
+            <div class="data-grid" id="dataGrid">
+                <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 14px;">
+                    Memuat data...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><strong>KKN Universitas Aisyah Pringsewu</strong> &copy; 2026<br>Dikembangkan dengan ❤️ untuk Desa Ambarawa
+            Timur</p>
+    </footer>
+
+    <!-- Success Overlay -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+        <h2>Absensi Berhasil!</h2>
+        <p style="color: var(--text-muted);">Data Anda telah tercatat ke sistem.</p>
+        <button class="btn" style="width: auto; padding: 10px 24px; margin-top: 20px;"
+            onclick="closeSuccess()">Tutup</button>
+    </div>
+
+    <script>
+        // ==========================================
+        // KONFIGURASI GOOGLE APPS SCRIPT URL
+        // ==========================================
+        // Ganti URL di bawah ini dengan Web App URL dari Google Apps Script Anda
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_PLACEHOLDER_URL/exec';
+
+        // Setup Date & Time
+        function updateDateTime() {
+            const now = new Date();
+
+            // Format for display in header
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString('id-ID', options);
+
+            // Format for form inputs
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            document.getElementById('inputTanggal').value = `${yyyy}-${mm}-${dd}`;
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('inputWaktu').value = `${hours}:${minutes}`;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Handle Keterangan visibility
+        const statusRadios = document.querySelectorAll('input[name="status"]');
+        const keteranganGroup = document.getElementById('keteranganGroup');
+        const keteranganInput = document.getElementById('inputKeterangan');
+
+        statusRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.value === 'Izin' || e.target.value === 'Sakit') {
+                    keteranganGroup.style.display = 'block';
+                    keteranganInput.required = true;
+                } else {
+                    keteranganGroup.style.display = 'none';
+                    keteranganInput.required = false;
+                    keteranganInput.value = '';
+                }
+            });
+        });
+
+        // Handle File Input to Base64
+        const fileInput = document.getElementById('inputFoto');
+        const fileNameDisplay = document.getElementById('fileName');
+
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Check size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                this.value = '';
+                fileNameDisplay.textContent = '';
+                return;
+            }
+
+            fileNameDisplay.innerHTML = `<i class="fa-solid fa-file-image"></i> ${file.name}`;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                // Extract base64 part
+                const base64data = event.target.result.split(',')[1];
+                document.getElementById('fotoBase64').value = base64data;
+                document.getElementById('fotoMimeType').value = file.type;
+                document.getElementById('fotoName').value = file.name;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Submit Form via AJAX to Apps Script
+        const form = document.getElementById('attendanceForm');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const btnText = btn.querySelector('.btn-text');
+            const spinner = document.getElementById('submitSpinner');
+
+            btn.disabled = true;
+            btnText.style.display = 'none';
+            spinner.style.display = 'block';
+
+            const payload = {
+                nama: document.getElementById('inputNama').value,
+                jabatan: document.getElementById('inputJabatan').value,
+                tanggal: document.getElementById('inputTanggal').value,
+                waktu: document.getElementById('inputWaktu').value,
+                status: document.querySelector('input[name="status"]:checked').value,
+                keterangan: document.getElementById('inputKeterangan').value,
+                fileBase64: document.getElementById('fotoBase64').value,
+                mimeType: document.getElementById('fotoMimeType').value,
+                fileName: document.getElementById('fotoName').value
+            };
+
+            // Post request to Google Apps Script
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Because Google Script redirects, we use no-cors
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(() => {
+                    // Since no-cors hides the response, we assume success if no network error
+                    document.getElementById('successOverlay').classList.add('active');
+                    form.reset();
+                    document.getElementById('fotoBase64').value = '';
+                    fileNameDisplay.textContent = '';
+
+                    // Reset radio to Hadir
+                    document.getElementById('statusHadir').checked = true;
+                    keteranganGroup.style.display = 'none';
+                    updateDateTime();
+                    fetchData(); // refresh data
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan saat mengirim absen. Coba lagi.');
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btnText.style.display = 'block';
+                    spinner.style.display = 'none';
+                });
+        });
+
+        function closeSuccess() {
+            document.getElementById('successOverlay').classList.remove('active');
+        }
+
+        // Fetch Data from Apps Script
+        function fetchData() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            const grid = document.getElementById('dataGrid');
+
+            refreshBtn.classList.add('spinning');
+
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        renderGrid(result.data);
+                        document.getElementById('counterDisplay').textContent = `${result.hadirCount} Hadir Hari Ini`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    grid.innerHTML = '<div style="padding:15px; color:var(--danger-text);">Gagal memuat data.</div>';
+                })
+                .finally(() => {
+                    setTimeout(() => refreshBtn.classList.remove('spinning'), 500);
+                });
+        }
+
+        function renderGrid(data) {
+            const grid = document.getElementById('dataGrid');
+            grid.innerHTML = '';
+
+            if (data.length === 0) {
+                grid.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted); font-size: 14px;">Belum ada absensi hari ini.</div>';
+                return;
+            }
+
+            data.forEach(row => {
+                // row format assuming: [Timestamp, Nama, Jabatan, Tanggal, Waktu, Status, Keterangan, FotoURL]
+                const nama = row[1] || 'Unknown';
+                const jabatan = row[2] || '-';
+                const waktu = row[4] || '-';
+                const status = row[5] || 'Hadir';
+                const urlFoto = row[7] || '';
+
+                let photoHtml = '';
+                if (urlFoto) {
+                    photoHtml = `<a href="${urlFoto}" target="_blank" style="color:var(--primary); font-size:16px;" title="Lihat Bukti Foto"><i class="fa-solid fa-image"></i></a>`;
+                }
+
+                const cardHtml = `
+                    <div class="data-card">
+                        <div class="data-info">
+                            <h4>${nama} <span style="font-weight:400; font-size:13px; color:var(--text-muted);">- ${jabatan}</span></h4>
+                            <div class="data-meta">
+                                <span><i class="fa-regular fa-clock"></i> ${waktu}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap: 15px;">
+                            ${photoHtml}
+                            <span class="badge ${status}">${status}</span>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        // Auto Refresh every 30 seconds
+        setInterval(fetchData, 30000);
+
+        // Initial Fetch
+        // Note: Akan gagal saat preview pertama kali karena SCRIPT_URL masih placeholder, jadi tidak perlu panggil fetchData() otomatis saat render untuk mencegah error console awal sebelum deploy.
+        // fetchData();
+    </script>
+</body>
+
+</html>
