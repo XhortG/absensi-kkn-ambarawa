@@ -1270,23 +1270,32 @@
                 const status = row[5] || 'Hadir';
                 const urlFoto = row[7] || '';
 
+                const keterangan = row[6] || '';
                 let photoHtml = '';
                 if (urlFoto) {
                     photoHtml = `<a href="${urlFoto}" target="_blank" style="color:var(--primary); font-size:16px;" title="Lihat Bukti Foto"><i class="fa-solid fa-image"></i></a>`;
                 }
 
+                let keteranganHtml = '';
+                if (keterangan) {
+                    keteranganHtml = `<div style="font-size: 13px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.02); border-radius: 8px; font-style: italic; width: 100%; border-left: 3px solid var(--primary-light);">"${keterangan}"</div>`;
+                }
+
                 const cardHtml = `
-                    <div class="data-card">
-                        <div class="data-info">
-                            <h4>${nama} <span style="font-weight:400; font-size:13px; color:var(--text-muted);">- ${jabatan}</span></h4>
-                            <div class="data-meta">
-                                <span><i class="fa-regular fa-clock"></i> ${waktu}</span>
+                    <div class="data-card" style="flex-direction: column; align-items: flex-start;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <div class="data-info">
+                                <h4>${nama} <span style="font-weight:400; font-size:13px; color:var(--text-muted);">- ${jabatan}</span></h4>
+                                <div class="data-meta">
+                                    <span><i class="fa-regular fa-clock"></i> ${waktu}</span>
+                                </div>
+                            </div>
+                            <div style="display:flex; align-items:center; gap: 15px;">
+                                ${photoHtml}
+                                <span class="badge ${status.replace(/ /g, '')}">${status}</span>
                             </div>
                         </div>
-                        <div style="display:flex; align-items:center; gap: 15px;">
-                            ${photoHtml}
-                            <span class="badge ${status}">${status}</span>
-                        </div>
+                        ${keteranganHtml}
                     </div>
                 `;
                 grid.innerHTML += cardHtml;
