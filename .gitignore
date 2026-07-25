@@ -1,3 +1,7 @@
 .tmp/
 *.csv
 *.xlsx
+*.py
+AGENTS.MD
+directives/
+execution/
