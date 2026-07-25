@@ -628,12 +628,12 @@
                     <label class="form-label" for="inputKeterangan">Keterangan (Wajib jika Izin/Sakit)</label>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" id="fotoGroup" style="display: none;">
                     <div class="file-input-wrapper">
                         <input type="file" id="inputFoto" accept="image/*" capture="environment">
                         <div class="file-label">
                             <i class="fa-solid fa-camera"></i>
-                            <span>Ambil Foto / Unggah Bukti</span>
+                            <span>Ambil Foto / Unggah Bukti <br><small style="color: var(--primary); font-weight: bold;">(Khusus PDD)</small></span>
                             <span style="font-size: 11px; opacity: 0.7;">(Maksimal 2MB)</span>
                         </div>
                     </div>
@@ -728,6 +728,24 @@
                     keteranganInput.value = '';
                 }
             });
+        });
+
+        // Handle Photo Upload Visibility based on Jabatan
+        const jabatanInput = document.getElementById('inputJabatan');
+        const fotoGroup = document.getElementById('fotoGroup');
+
+        jabatanInput.addEventListener('change', (e) => {
+            if (e.target.value === 'PDD') {
+                fotoGroup.style.display = 'block';
+            } else {
+                fotoGroup.style.display = 'none';
+                // Reset file input when hidden
+                document.getElementById('inputFoto').value = '';
+                document.getElementById('fileName').textContent = '';
+                document.getElementById('fotoBase64').value = '';
+                document.getElementById('fotoMimeType').value = '';
+                document.getElementById('fotoName').value = '';
+            }
         });
 
         // Handle File Input to Base64
