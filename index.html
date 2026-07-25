@@ -980,7 +980,10 @@
                 document.getElementById('inputJabatan').value = '';
                 document.getElementById('statHadir').checked = true;
                 handleStatus();
-                fetchData();
+                // Delay fetch to give Google Sheets time to process and save the new row
+                setTimeout(() => {
+                    fetchData();
+                }, 3500);
             }).finally(() => {
                 btn.disabled = false;
                 btn.querySelector('.btn-text').style.display = 'block';
@@ -1091,6 +1094,7 @@
 
         // Initial fetch omitted to avoid empty errors if script fails without interaction
         // Users can press Refresh.
+        fetchData();
     </script>
 </body>
 </html>
