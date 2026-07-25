@@ -862,7 +862,7 @@
 
                     <div class="form-group">
                         <div class="file-input-wrapper">
-                            <input type="file" id="inputFoto" accept="image/*" capture="environment" required>
+                            <input type="file" id="inputFoto" accept="image/*" multiple required>
                             <div class="file-label">
                                 <i class="fa-solid fa-camera"></i>
                                 <span>Ambil Foto / Unggah Bukti</span>
@@ -871,9 +871,7 @@
                         </div>
                         <div id="fileName"></div>
                         <!-- Base64 hidden input -->
-                        <input type="hidden" id="fotoBase64">
-                        <input type="hidden" id="fotoMimeType">
-                        <input type="hidden" id="fotoName">
+                        <input type="hidden" id="fotoDataArray" value="[]">
                     </div>
 
                     <button type="submit" class="btn" id="dokSubmitBtn">
@@ -927,15 +925,14 @@
             const dokWaktu = `${hours}:${minutes}`;
 
             const payload = {
+                type: 'dokumentasi',
                 nama: document.getElementById('dokNama').value,
                 jabatan: 'PDD',
                 tanggal: dokTanggal,
                 waktu: dokWaktu,
                 status: 'Upload Dokumentasi',
                 keterangan: document.getElementById('dokKeterangan').value,
-                fileBase64: document.getElementById('fotoBase64').value,
-                mimeType: document.getElementById('fotoMimeType').value,
-                fileName: document.getElementById('fotoName').value
+                fotos: JSON.parse(document.getElementById('fotoDataArray').value || '[]')
             };
 
             fetch(SCRIPT_URL, {
@@ -949,9 +946,7 @@
                 .then(() => {
                     document.getElementById('successOverlay').classList.add('active');
                     dokForm.reset();
-                    document.getElementById('fotoBase64').value = '';
-                    document.getElementById('fotoMimeType').value = '';
-                    document.getElementById('fotoName').value = '';
+                    document.getElementById('fotoDataArray').value = '[]';
                     document.getElementById('fileName').innerHTML = '';
                 })
                 .catch(error => {
@@ -1025,33 +1020,50 @@
             });
         });
 
-        // Handle File Input to Base64
+        // Handle Multiple File Input to Base64 Array
         const fileInput = document.getElementById('inputFoto');
         const fileNameDisplay = document.getElementById('fileName');
 
-        fileInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        fileInput.addEventListener('change', async function (e) {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
 
-            // Check size (max 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert('Ukuran file terlalu besar! Maksimal 2MB.');
-                this.value = '';
-                fileNameDisplay.textContent = '';
-                return;
+            // Check size per file (max 2MB each)
+            for(let file of files) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert(`Ukuran foto ${file.name} terlalu besar! Maksimal 2MB per foto.`);
+                    this.value = '';
+                    fileNameDisplay.innerHTML = '';
+                    document.getElementById('fotoDataArray').value = '[]';
+                    return;
+                }
             }
 
-            fileNameDisplay.innerHTML = `<i class="fa-solid fa-file-image"></i> ${file.name}`;
+            fileNameDisplay.innerHTML = `<i class="fa-solid fa-images"></i> ${files.length} Foto Terpilih`;
 
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                // Extract base64 part
-                const base64data = event.target.result.split(',')[1];
-                document.getElementById('fotoBase64').value = base64data;
-                document.getElementById('fotoMimeType').value = file.type;
-                document.getElementById('fotoName').value = file.name;
+            const readAsDataURLAsync = (file) => {
+                return new Promise((resolve, reject) => {
+                    let reader = new FileReader();
+                    reader.onload = () => {
+                        resolve({
+                            base64: reader.result.split(',')[1],
+                            mimeType: file.type,
+                            fileName: file.name
+                        });
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
             };
-            reader.readAsDataURL(file);
+
+            try {
+                const photosArray = await Promise.all(files.map(file => readAsDataURLAsync(file)));
+                document.getElementById('fotoDataArray').value = JSON.stringify(photosArray);
+            } catch (err) {
+                alert('Gagal memproses gambar');
+                this.value = '';
+                document.getElementById('fotoDataArray').value = '[]';
+            }
         });
 
         // Submit Form via AJAX to Apps Script
@@ -1068,15 +1080,13 @@
             spinner.style.display = 'block';
 
             const payload = {
+                type: 'absensi',
                 nama: document.getElementById('inputNama').value,
                 jabatan: document.getElementById('inputJabatan').value,
                 tanggal: document.getElementById('inputTanggal').value,
                 waktu: document.getElementById('inputWaktu').value,
                 status: document.querySelector('input[name="status"]:checked').value,
-                keterangan: document.getElementById('inputKeterangan').value,
-                fileBase64: '',
-                mimeType: '',
-                fileName: ''
+                keterangan: document.getElementById('inputKeterangan').value
             };
 
             // Post request to Google Apps Script
