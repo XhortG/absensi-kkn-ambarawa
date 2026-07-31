@@ -401,6 +401,68 @@
             border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
+        /* Search input inside nama dropdown */
+        .nama-search-wrapper {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 2;
+        }
+
+        .nama-search {
+            width: 100%;
+            border: 1.5px solid rgba(99,102,241,0.2);
+            border-radius: 10px;
+            padding: 9px 12px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            outline: none;
+            transition: border 0.2s;
+            background: rgba(99,102,241,0.03);
+        }
+
+        .nama-search:focus {
+            border-color: var(--primary-light);
+        }
+
+        .custom-option .opt-npm {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .custom-option .opt-jabatan {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(99,102,241,0.1);
+            color: var(--primary-dark);
+            border-radius: 6px;
+            padding: 2px 7px;
+            margin-top: 4px;
+        }
+
+        /* Alert already absen */
+        .alert-sudah-absen {
+            display: none;
+            background: var(--danger-bg);
+            border: 1.5px solid var(--danger);
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 5px;
+            animation: slideUp 0.3s ease;
+        }
+
         /* Radio Status Buttons */
         .status-label {
             display: block;
@@ -738,9 +800,29 @@
                 </div>
                 
                 <form id="attendanceForm">
+                    <!-- Custom Dropdown Nama Anggota -->
                     <div class="form-group">
-                        <input type="text" id="inputNama" class="form-control" required oninput="checkInput(this)">
-                        <label class="form-label">Nama Lengkap</label>
+                        <div class="custom-select-wrapper" id="namaWrapper" onclick="toggleNamaDropdown(event)">
+                            <div class="form-control custom-select-display" id="namaDisplay">
+                                <span></span>
+                                <i class="fa-solid fa-chevron-down custom-select-icon"></i>
+                            </div>
+                            <label class="form-label">Pilih Nama Anggota</label>
+                            <input type="hidden" id="inputNama" required>
+                            <input type="hidden" id="inputNpm">
+
+                            <div class="custom-options" id="namaOptionsList">
+                                <div class="nama-search-wrapper">
+                                    <input type="text" id="namaSearch" class="nama-search" placeholder="&#128269; Cari nama..." oninput="filterNama(this.value)" onclick="event.stopPropagation()">
+                                </div>
+                                <div id="namaOptionsContainer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alert sudah absen hari ini -->
+                    <div class="alert-sudah-absen" id="alertSudahAbsen">
+                        <i class="fa-solid fa-circle-exclamation"></i> Anda sudah absen hari ini!
                     </div>
 
                     <!-- Custom Dropdown Jabatan -->
@@ -877,6 +959,91 @@
         // SCRIPT URL (Sama persis)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymq8I0dk7AmmnwDrNj__aFW_-I1eSHZNZeQVeO-st9oN8hKnn0Mu8Fb_h6uRVGOGXO/exec';
 
+        // Data Anggota KKN
+        const ANGGOTA_KKN = [
+            { nama: 'Muhammad Esa Priangga',      npm: '230201055', jabatan: 'Ketua' },
+            { nama: 'M Faishal Sulistiyo',         npm: '240101187', jabatan: 'Wakil Ketua' },
+            { nama: 'Ilham Arifin',                npm: '230201053', jabatan: 'Sekretaris' },
+            { nama: 'Devi Kusuma',                 npm: '230104040', jabatan: 'Sekretaris' },
+            { nama: 'Rohmah Nurkhasanah',          npm: '230106015', jabatan: 'Bendahara' },
+            { nama: 'Redita Rani',                 npm: '240101031', jabatan: 'Bendahara' },
+            { nama: 'Aulia Vanesa Irawan Putri',   npm: '230106151', jabatan: 'PDD' },
+            { nama: 'Aulia Putri Utamisyah',       npm: '230106155', jabatan: 'PDD' },
+            { nama: 'Siti Zulaikho',               npm: '230107024', jabatan: 'PDD' },
+            { nama: 'Arfa Arbelia',                npm: '230107044', jabatan: 'PDD' },
+            { nama: 'Risti Felina',                npm: '230104019', jabatan: 'Konsumsi' },
+            { nama: 'Risma Aulia',                 npm: '240101208', jabatan: 'Konsumsi' },
+            { nama: 'Mutiara Maharani Hairunida',  npm: '240101209', jabatan: 'Konsumsi' },
+            { nama: 'Emilia Azzahra',              npm: '240101215', jabatan: 'Konsumsi' },
+            { nama: 'Dinda Dewi Oktariani',        npm: '230106142', jabatan: 'Humas' },
+            { nama: 'Muhammad Firdi Kurniawan',    npm: '230101134', jabatan: 'Humas' },
+            { nama: 'Jovita Karisma Hariyani',     npm: '230106197', jabatan: 'Humas' },
+            { nama: 'Eni Muryati',                 npm: '230106178', jabatan: 'Humas' },
+            { nama: 'Via Asty Mulyani',            npm: '230106044', jabatan: 'Perlengkapan' },
+            { nama: 'Okta Suci Safitri',           npm: '230106258', jabatan: 'Perlengkapan' },
+        ];
+
+        // Global untuk cek absen duplikat
+        let todayAbsensiData = [];
+
+        // Render opsi nama ke dropdown
+        function renderNamaOptions(list) {
+            const container = document.getElementById('namaOptionsContainer');
+            container.innerHTML = '';
+            if (list.length === 0) {
+                container.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text-muted);font-size:13px;">Tidak ditemukan</div>';
+                return;
+            }
+            list.forEach(anggota => {
+                const div = document.createElement('div');
+                div.className = 'custom-option';
+                div.innerHTML = `<strong>${anggota.nama}</strong><span class="opt-npm">${anggota.npm}</span><span class="opt-jabatan">${anggota.jabatan}</span>`;
+                div.onclick = (e) => { e.stopPropagation(); selectNama(anggota); };
+                container.appendChild(div);
+            });
+        }
+
+        function filterNama(q) {
+            const filtered = ANGGOTA_KKN.filter(a =>
+                a.nama.toLowerCase().includes(q.toLowerCase()) ||
+                a.npm.includes(q)
+            );
+            renderNamaOptions(filtered);
+        }
+
+        function toggleNamaDropdown(e) {
+            const wrapper = document.getElementById('namaWrapper');
+            wrapper.classList.toggle('open');
+            if (wrapper.classList.contains('open')) {
+                setTimeout(() => document.getElementById('namaSearch').focus(), 100);
+            }
+        }
+
+        function selectNama(anggota) {
+            const display = document.getElementById('namaDisplay');
+            display.querySelector('span').textContent = anggota.nama + ' — ' + anggota.npm;
+            display.classList.add('has-value');
+            document.getElementById('inputNama').value = anggota.nama;
+            document.getElementById('inputNpm').value = anggota.npm;
+            document.getElementById('namaWrapper').classList.remove('open');
+            document.getElementById('namaSearch').value = '';
+            renderNamaOptions(ANGGOTA_KKN);
+            // Auto-isi jabatan
+            selectOption(anggota.jabatan);
+            // Sembunyikan alert duplikat saat ganti nama
+            cekSudahAbsen(anggota.nama);
+        }
+
+        function cekSudahAbsen(nama) {
+            const alert = document.getElementById('alertSudahAbsen');
+            const sudah = todayAbsensiData.some(row => (row[1] || '').trim().toLowerCase() === nama.trim().toLowerCase());
+            alert.style.display = sudah ? 'block' : 'none';
+            return sudah;
+        }
+
+        // Init nama options saat halaman load
+        renderNamaOptions(ANGGOTA_KKN);
+
         // --- UI Interactions ---
         function checkInput(el) {
             if (el.value.trim() !== '') el.classList.add('has-value');
@@ -901,6 +1068,9 @@
         document.addEventListener('click', (e) => {
             if(!e.target.closest('#jabatanWrapper')) {
                 document.getElementById('jabatanWrapper').classList.remove('open');
+            }
+            if(!e.target.closest('#namaWrapper')) {
+                document.getElementById('namaWrapper').classList.remove('open');
             }
         });
 
@@ -994,9 +1164,17 @@
         document.getElementById('attendanceForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
+            const nama = document.getElementById('inputNama').value;
             const jabatan = document.getElementById('inputJabatan').value;
-            
+
+            if(!nama) { alert('Pilih nama anggota!'); return; }
             if(!jabatan) { alert('Pilih Jabatan!'); return; }
+
+            // Cek absen duplikat
+            if(cekSudahAbsen(nama)) {
+                document.getElementById('alertSudahAbsen').style.display = 'block';
+                return;
+            }
 
             btn.disabled = true;
             btn.querySelector('.btn-text').style.display = 'none';
@@ -1019,7 +1197,13 @@
             }).then(() => {
                 document.getElementById('successModal').classList.add('active');
                 this.reset();
-                document.getElementById('inputNama').classList.remove('has-value');
+                // Reset nama dropdown
+                const namaDisplay = document.getElementById('namaDisplay');
+                namaDisplay.querySelector('span').textContent = '';
+                namaDisplay.classList.remove('has-value');
+                document.getElementById('inputNama').value = '';
+                document.getElementById('inputNpm').value = '';
+                document.getElementById('alertSudahAbsen').style.display = 'none';
                 document.getElementById('inputKeterangan').classList.remove('has-value');
                 document.getElementById('jabatanDisplay').querySelector('span').textContent = '';
                 document.getElementById('jabatanDisplay').classList.remove('has-value');
@@ -1090,7 +1274,11 @@
                 .then(res => {
                     if(res.status === 'success') {
                         document.getElementById('countDisplay').textContent = res.hadirCount + ' Hadir';
+                        todayAbsensiData = res.data || [];
                         renderGrid(res.data);
+                        // Refresh cek duplikat jika ada nama aktif
+                        const namaAktif = document.getElementById('inputNama').value;
+                        if(namaAktif) cekSudahAbsen(namaAktif);
                     }
                 }).catch(e => {
                     grid.innerHTML = '<div style="text-align:center;color:var(--danger);font-size:14px;padding:20px;">Gagal memuat data.</div>';
