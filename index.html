@@ -750,7 +750,7 @@
                                 <span></span>
                                 <i class="fa-solid fa-chevron-down custom-select-icon"></i>
                             </div>
-                            <label class="form-label">Jabatan Organisasi</label>
+                            <label class="form-label">Jabatan</label>
                             <input type="hidden" id="inputJabatan" required>
                             
                             <div class="custom-options">
@@ -996,7 +996,7 @@
             const btn = document.getElementById('submitBtn');
             const jabatan = document.getElementById('inputJabatan').value;
             
-            if(!jabatan) { alert('Pilih Jabatan Organisasi!'); return; }
+            if(!jabatan) { alert('Pilih Jabatan!'); return; }
 
             btn.disabled = true;
             btn.querySelector('.btn-text').style.display = 'none';
