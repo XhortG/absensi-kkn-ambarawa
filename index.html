@@ -1036,7 +1036,8 @@
 
         function cekSudahAbsen(nama) {
             const alert = document.getElementById('alertSudahAbsen');
-            const sudah = todayAbsensiData.some(row => (row.nama || '').trim().toLowerCase() === nama.trim().toLowerCase());
+            // data dari GAS adalah array-of-arrays: row[1] = nama
+            const sudah = todayAbsensiData.some(row => String(row[1] || '').trim().toLowerCase() === nama.trim().toLowerCase());
             alert.style.display = sudah ? 'block' : 'none';
             return sudah;
         }
@@ -1272,15 +1273,17 @@
             fetch(SCRIPT_URL)
                 .then(r => r.json())
                 .then(res => {
-                    // GAS v2 doGet returns array of {nama, status, waktu} directly
-                    const data = Array.isArray(res) ? res : (res.data || []);
-                    todayAbsensiData = data;
-                    const hadirCount = data.filter(r => (r.status || '').toLowerCase() === 'hadir').length;
-                    document.getElementById('countDisplay').textContent = hadirCount + ' Hadir';
-                    renderGrid(data);
-                    // Refresh cek duplikat jika ada nama aktif
-                    const namaAktif = document.getElementById('inputNama').value;
-                    if(namaAktif) cekSudahAbsen(namaAktif);
+                    // GAS doGet mengembalikan: {status, hadirCount, data:[[row arrays]]}
+                    if (res.status === 'success') {
+                        const data = res.data || [];
+                        todayAbsensiData = data;
+                        document.getElementById('countDisplay').textContent = (res.hadirCount || 0) + ' Hadir';
+                        renderGrid(data);
+                        const namaAktif = document.getElementById('inputNama').value;
+                        if (namaAktif) cekSudahAbsen(namaAktif);
+                    } else {
+                        grid.innerHTML = '<div style="text-align:center;color:var(--danger);font-size:14px;padding:20px;">Gagal: ' + (res.message || 'Error') + '</div>';
+                    }
                 }).catch(e => {
                     grid.innerHTML = '<div style="text-align:center;color:var(--danger);font-size:14px;padding:20px;">Gagal memuat data.</div>';
                 }).finally(() => {
@@ -1291,21 +1294,23 @@
         function renderGrid(data) {
             const grid = document.getElementById('dataGrid');
             grid.innerHTML = '';
-            if(!data || data.length === 0) {
+            if (!data || data.length === 0) {
                 grid.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:14px;padding:20px;">Belum ada data hari ini.</div>';
                 return;
             }
 
             data.forEach(row => {
-                // GAS v2 returns objects: {nama, status, waktu}
-                const nama = row.nama || 'Unknown';
-                const waktu = row.waktu || '-';
-                const status = row.status || 'Hadir';
-                
-                // Get initials for Avatar
+                // GAS mengembalikan array per baris:
+                // [0]=timestamp [1]=nama [2]=jabatan [3]=tanggal [4]=waktu [5]=status [6]=ket
+                const nama   = String(row[1] || 'Unknown');
+                const jabatan = String(row[2] || '-');
+                const waktu  = String(row[4] || '-');
+                const status = String(row[5] || 'Hadir');
+                const ket    = String(row[6] || '');
+
                 const initials = nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                
                 const statClass = status.toLowerCase().replace(/\s+/g, '-');
+                const ketHtml = ket ? `<div class="data-keterangan">"${ket}"</div>` : '';
 
                 grid.innerHTML += `
                     <div class="data-item" style="flex-direction:column; align-items:flex-start;">
@@ -1314,11 +1319,12 @@
                             <div class="data-info">
                                 <div class="data-name">${nama}</div>
                                 <div class="data-meta-text">
-                                    <i class="fa-regular fa-clock"></i> ${waktu}
+                                    <i class="fa-regular fa-clock"></i> ${waktu} &bull; ${jabatan}
                                 </div>
                             </div>
                             <div class="status-badge ${statClass}">${status}</div>
                         </div>
+                        ${ketHtml}
                     </div>
                 `;
             });
