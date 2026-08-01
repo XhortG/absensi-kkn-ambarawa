@@ -1121,6 +1121,34 @@
         setInterval(updateTime, 1000);
         updateTime();
 
+        // === HELPER: Generate nama file berurutan ===
+        function generateFileName(index, total, file, tanggal, keterangan, namaPDD) {
+            // Format tanggal: YYYYMMDD
+            const tgl = tanggal.replace(/-/g, '');
+
+            // Sanitasi keterangan: huruf kapital, hapus karakter non-alfanumerik, batasi 30 karakter
+            const ket = keterangan
+                .trim()
+                .replace(/[^a-zA-Z0-9 ]/g, '')
+                .replace(/\s+/g, '_')
+                .substring(0, 30) || 'Dokumentasi';
+
+            // Sanitasi nama PDD: ambil kata pertama saja
+            const namaBersih = namaPDD
+                .trim()
+                .split(' ')[0]
+                .replace(/[^a-zA-Z0-9]/g, '') || 'PDD';
+
+            // Nomor urut dengan padding (001, 002, ...)
+            const pad = total >= 100 ? 3 : total >= 10 ? 2 : 2;
+            const nomor = String(index + 1).padStart(pad, '0');
+
+            // Ekstensi dari file asli
+            const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+
+            return `${tgl}_${ket}_${namaBersih}_${nomor}.${ext}`;
+        }
+
         // Photo Upload Handler (to Base64 Array)
         document.getElementById('inputFoto').addEventListener('change', async function(e) {
             const files = Array.from(e.target.files);
@@ -1140,14 +1168,12 @@
                 }
             }
 
-            display.innerHTML = `<i class="fa-solid fa-images"></i> ${files.length} File Dipilih`;
-            
             const readAsync = (file) => new Promise((resolve, reject) => {
                 let reader = new FileReader();
                 reader.onload = () => resolve({
                     base64: reader.result.split(',')[1],
                     mimeType: file.type,
-                    fileName: file.name
+                    originalName: file.name
                 });
                 reader.onerror = reject;
                 reader.readAsDataURL(file);
@@ -1155,7 +1181,42 @@
 
             try {
                 const arr = await Promise.all(files.map(f => readAsync(f)));
-                document.getElementById('fotoDataArray').value = JSON.stringify(arr);
+
+                // Beri nama file saat dikirim (bisa juga di-generate ulang saat submit)
+                const tanggal = document.getElementById('inputTanggal').value;
+                const keterangan = document.getElementById('dokKeterangan').value;
+                const namaPDD = document.getElementById('dokNama').value;
+
+                const arrNamed = arr.map((item, i) => ({
+                    base64: item.base64,
+                    mimeType: item.mimeType,
+                    fileName: generateFileName(i, arr.length, { name: item.originalName }, tanggal, keterangan, namaPDD)
+                }));
+
+                document.getElementById('fotoDataArray').value = JSON.stringify(arrNamed);
+
+                // Tampilkan preview nama file
+                const namaList = arrNamed.map((f, i) =>
+                    `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(99,102,241,0.08);">
+                        <span style="background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;min-width:28px;text-align:center;">${String(i+1).padStart(2,'0')}</span>
+                        <span style="font-size:12px;color:var(--text-main);word-break:break-all;">${f.fileName}</span>
+                    </div>`
+                ).join('');
+
+                display.innerHTML = `
+                    <div style="margin-top:4px;">
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+                            <i class="fa-solid fa-images" style="color:var(--primary);"></i>
+                            <strong style="color:var(--primary-dark);">${files.length} foto dipilih</strong>
+                            <span style="font-size:11px;color:var(--text-muted);">(nama file otomatis)</span>
+                        </div>
+                        <div style="background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.12);border-radius:12px;padding:10px 14px;text-align:left;max-height:160px;overflow-y:auto;">
+                            ${namaList}
+                        </div>
+                        <p style="font-size:11px;color:var(--text-muted);margin-top:8px;"><i class="fa-solid fa-circle-info"></i> Nama file akan diperbarui otomatis sesuai keterangan kegiatan saat upload.</p>
+                    </div>
+                `;
+
             } catch(err) {
                 alert('Gagal memproses gambar');
             }
@@ -1226,20 +1287,31 @@
         document.getElementById('dokumentasiForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('dokSubmitBtn');
-            
+
+            const tanggal   = document.getElementById('inputTanggal').value;
+            const keterangan = document.getElementById('dokKeterangan').value;
+            const namaPDD   = document.getElementById('dokNama').value;
+
+            // Re-generate nama file dengan data terkini saat tombol Submit ditekan
+            let fotos = JSON.parse(document.getElementById('fotoDataArray').value || '[]');
+            fotos = fotos.map((item, i) => ({
+                ...item,
+                fileName: generateFileName(i, fotos.length, { name: item.fileName }, tanggal, keterangan, namaPDD)
+            }));
+
             btn.disabled = true;
             btn.querySelector('.btn-text').style.display = 'none';
             document.getElementById('dokSubmitSpinner').style.display = 'block';
 
             const payload = {
                 type: 'dokumentasi',
-                nama: document.getElementById('dokNama').value,
+                nama: namaPDD,
                 jabatan: 'PDD',
-                tanggal: document.getElementById('inputTanggal').value,
+                tanggal: tanggal,
                 waktu: document.getElementById('inputWaktu').value,
                 status: 'Upload Dokumentasi',
-                keterangan: document.getElementById('dokKeterangan').value,
-                fotos: JSON.parse(document.getElementById('fotoDataArray').value || '[]')
+                keterangan: keterangan,
+                fotos: fotos
             };
 
             fetch(SCRIPT_URL, {
